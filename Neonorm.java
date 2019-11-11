@@ -1,22 +1,5 @@
-package ace.map.modules.subtract.core;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.util.Vector;
-
-import javax.swing.ImageIcon;
-
-import ace.map.config.AceXapConfig;
-import ace.map.general.core.utils.AceUtil;
-import ace.map.general.core.utils.Utils;
-import ace.map.general.data.datatables.AceTable;
-import ace.map.general.data.datatables.TableRow;
-import ace.map.general.gui.components.AceProgress;
-import ace.map.modules.subtract.gui.BMPFrame;
-
 /**
- * Used to determine NeONORM bias coefficient for a subtraction of xa0 or xa1
- * files.
+ * Used to determine NeONORM bias coefficient for two vectors.
  * 
  * @author Sebastian Noth
  */
@@ -74,9 +57,6 @@ public class Neonorm {
 		double[] rl;
 		int len = (int) (Math.round(2.0 * s / d));
 		int lenP = len / 25;
-
-		if (aceProgress != null)
-			aceProgress.setStringOv("sampling");
 
 		double ai;
 		int last_sgn, sgn;
@@ -269,9 +249,6 @@ public class Neonorm {
 		if (cand == null)
 			return Double.NaN;
 
-		if (aceProgress != null) {
-			aceProgress.setPartOv((progressCoeff + progressCoeffInit) / 2.0);
-		}
 
 		double[] min_a = new double[cand.length];
 		double[] min_e = new double[cand.length];
@@ -292,9 +269,6 @@ public class Neonorm {
 			}
 		}
 
-		if (aceProgress != null)
-			aceProgress.setStringOv("");
-		return abs_min_a;
 	}
 
 	public double minimizeErrorPlot(double aIn, double inter, double k0, double convMax, File f, AceProgress aceProgress, float progressCoeff) {
@@ -402,11 +376,6 @@ public class Neonorm {
 
 				fwr.write(Utils.lineEnd);
 
-				// update the progress bar
-				if (aceProgress != null) {
-					aceProgress.setString("k-scan plot : " + (int) ((double) (i + 1) * 100 / res_a) + "%");
-					aceProgress.setPartOv((double) (i + 1) / (double) res_a * progressCoeff);
-				}
 			}
 
 			fwr.close();
